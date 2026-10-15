@@ -8216,6 +8216,7 @@ element("login-form").onsubmit = (e) => {
       qr.hidden = false;
     }
     element("mfa-form").hidden = false;
+    element("login-form").hidden = true;
     status("\u8F38\u5165\u9A57\u8B49\u5668\u4EE3\u78BC\u4EE5\u5B8C\u6210\u767B\u5165\u3002");
   });
 };
