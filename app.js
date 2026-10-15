@@ -8198,9 +8198,12 @@ element("login-form").onsubmit = (e) => {
     const existing = factors.data.totp.find((x) => x.status === "verified");
     if (existing) factorID = existing.id;
     else {
-      for (const stale of factors.data.totp.filter((x) => x.status !== "verified")) await client.auth.mfa.unenroll({
-        factorId: stale.id
-      });
+      for (const stale of factors.data.all.filter((x) => x.factor_type === "totp" && x.status === "unverified" && x.friendly_name === "Official templates admin")) {
+        const removed = await client.auth.mfa.unenroll({
+          factorId: stale.id
+        });
+        if (removed.error) throw removed.error;
+      }
       const enrolled = await client.auth.mfa.enroll({
         factorType: "totp",
         friendlyName: "Official templates admin"
